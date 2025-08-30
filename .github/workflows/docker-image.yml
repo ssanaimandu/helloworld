@@ -5,6 +5,8 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ] # main 브랜치에 push될 때 실행
+  release:
+    types: [published] # 새로운 릴리즈가 'published' 상태일 때 실행
 
 # 실행될 작업(job) 정의
 jobs:
