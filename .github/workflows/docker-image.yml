@@ -1,5 +1,5 @@
 # 워크플로우의 이름
-name: Publish to Docker Hub on Release
+name: Publish to Docker Hub with Release and Latest Tags
 
 # 워크플로우 실행 조건: 새 릴리즈가 발행될 때
 on:
@@ -23,11 +23,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 3. Docker 이미지 빌드 및 푸시
+      # 3. Docker 이미지 빌드 및 푸시 (두 개의 태그 사용)
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          # 이미지 태그를 릴리즈 태그와 동일하게 설정
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+          # 이미지에 두 개의 태그(릴리즈 태그, latest)를 지정
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
