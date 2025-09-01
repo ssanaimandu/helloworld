@@ -34,20 +34,3 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
 
-      # 4. 오래된 Docker 이미지 태그 삭제
-      - name: Delete old image tags
-        uses: WyriHaximus/github-action-delete-docker-tag@v1
-        with:
-          # 필수: 도커허브 사용자 이름과 토큰(비밀번호)
-          user: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-          # 필수: 정리할 이미지 리포지토리 이름
-          repository: ${{ github.event.repository.name }}
-
-          # 옵션: 남겨둘 최근 태그의 수 (기본값: 5)
-          keep_latest: 5
-
-          # 옵션: 삭제하지 않고 항상 제외할 태그 (쉼표로 구분)
-          # 'latest'는 이미 푸시했으므로 삭제 대상에서 제외합니다.
-          exclude_tags: latest,dev
